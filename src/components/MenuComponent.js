@@ -9,19 +9,23 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import DishDetails from "./DishdetailComponent";
-
+function RenderMenuItem({ dish }) {
+  return (
+    <Card>
+      <Link to={`/menu/${dish.id}`}>
+        <CardImg width="100%" src={dish.image} alt={dish.name} />
+        <CardImgOverlay>
+          <CardTitle>{dish.name}</CardTitle>
+        </CardImgOverlay>
+      </Link>
+    </Card>
+  );
+}
 const Menu = (props) => {
   const menu = props.dishes.map((dish) => {
     return (
       <div className="col-12 col-md-5 m-1" key={dish.id}>
-        <Card>
-          <Link to={`/menu/${dish.id}`}>
-            <CardImg width="100%" src={dish.image} alt={dish.name} />
-            <CardImgOverlay>
-              <CardTitle>{dish.name}</CardTitle>
-            </CardImgOverlay>
-          </Link>
-        </Card>
+        <RenderMenuItem dish={dish} />
       </div>
     );
   });
