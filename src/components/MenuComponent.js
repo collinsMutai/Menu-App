@@ -8,7 +8,7 @@ import {
   BreadcrumbItem,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import DishDetails from "./DishdetailComponent";
+// import DishDetails from "./DishdetailComponent";
 function RenderMenuItem({ dish }) {
   return (
     <Card>
