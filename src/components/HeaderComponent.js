@@ -12,11 +12,11 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  Form,
-  FormGroup,
-  Input,
+  Row,
+  Col,
   Label,
 } from "reactstrap";
+import { Control, LocalForm, Errors } from "react-redux-form";
 
 import { NavLink } from "react-router-dom";
 
@@ -45,18 +45,12 @@ class Header extends Component {
     });
   }
 
-  handleLogin(event) {
+  handleLogin(values) {
+    console.log("Current State is: " + JSON.stringify(values));
+    alert("Current State is: " + JSON.stringify(values));
     this.toggleModal();
-    alert(
-      "Username: " +
-        this.username.value +
-        " Password: " +
-        this.password.value +
-        " Remember: " +
-        this.remember.checked
-    );
-    event.preventDefault();
   }
+
   render() {
     return (
       <React.Fragment>
@@ -122,39 +116,55 @@ class Header extends Component {
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
           <ModalBody>
-            <Form onSubmit={this.handleLogin}>
-              <FormGroup>
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  type="text"
-                  id="username"
-                  name="username"
-                  innerRef={(input) => (this.username = input)}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  name="password"
-                  innerRef={(input) => (this.password = input)}
-                />
-              </FormGroup>
-              <FormGroup check>
-                <Label check>
-                  <Input
-                    type="checkbox"
-                    name="remember"
-                    innerRef={(input) => (this.remember = input)}
-                  />
-                  Remember me
+            <LocalForm onSubmit={(values) => this.handleLogin(values)}>
+              <Row className="form-group">
+                <Label htmlFor="username" md={12}>
+                  User Name
                 </Label>
-              </FormGroup>
-              <Button type="submit" value="submit" color="primary">
-                Login
-              </Button>
-            </Form>
+                <Col>
+                  <Control.text
+                    model=".username"
+                    id="username"
+                    name="username"
+                    placeholder="Enter User Name"
+                    className="form-control"
+                  />
+                </Col>
+              </Row>
+              <Row className="form-group">
+                <Label htmlFor="password" md={12}>
+                  Password
+                </Label>
+                <Col>
+                  <Control.password
+                    model=".password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    className="form-control"
+                  />
+                </Col>
+              </Row>
+              <Row className="form-group">
+                <Col md={{ size: 6, offset: 2 }}>
+                  <div className="form-check">
+                    <Label check>
+                      <Control.checkbox
+                        model=".checkbox"
+                        name="remember"
+                        className="form-check-input"
+                      />
+                      Remember me
+                    </Label>
+                  </div>
+                </Col>
+                <Col md={4}>
+                  <Button type="submit" value="submit" color="primary">
+                    Login
+                  </Button>
+                </Col>
+              </Row>
+            </LocalForm>
           </ModalBody>
         </Modal>
       </React.Fragment>
