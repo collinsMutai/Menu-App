@@ -181,6 +181,7 @@ function Renderdish({ dish }) {
 }
 const DishDetails = (props) => {
   const dish = props.dish;
+
   if (props.isLoading) {
     return (
       <div className="container">
