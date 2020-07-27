@@ -44,7 +44,7 @@ class CommentForm extends Component {
 
   handleSubmit(values) {
     console.log("Current State is: " + JSON.stringify(values));
-    this.props.addComment(
+    this.props.postComment(
       this.props.dishId,
       values.rating,
       values.author,
@@ -83,14 +83,14 @@ class CommentForm extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label htmlFor="yourname" md={12}>
+                <Label htmlFor="author" md={12}>
                   Your Name
                 </Label>
                 <Col>
                   <Control.text
-                    model=".yourname"
-                    id="yourname"
-                    name="yourname"
+                    model=".author"
+                    id="author"
+                    name="author"
                     placeholder="Your Name"
                     className="form-control"
                     validators={{
@@ -101,7 +101,7 @@ class CommentForm extends Component {
                   />
                   <Errors
                     className="text-danger"
-                    model=".yourname"
+                    model=".author"
                     show="touched"
                     messages={{
                       required: "Required",
@@ -141,27 +141,29 @@ class CommentForm extends Component {
   }
 }
 
-function RenderComments({ comments, addComment, dishId }) {
+function RenderComments({ comments, postComment, dishId }) {
   if (comments != null)
     return (
       <div>
         <h4>Comments</h4>
         <ul className="list-unstyled">
-          {comments.map((comment) => (
-            <li key={comment.id}>
-              <p>{comment.comment}</p>
-              <p>
-                -- {comment.author},{" "}
-                {new Intl.DateTimeFormat("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                }).format(new Date(Date.parse(comment.date)))}
-              </p>
-            </li>
-          ))}
+          {comments.map((comment) => {
+            return (
+              <li key={comment.id}>
+                <p>{comment.comment}</p>
+                <p>
+                  -- {comment.author},{" "}
+                  {new Intl.DateTimeFormat("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                  }).format(new Date(Date.parse(comment.date)))}
+                </p>
+              </li>
+            );
+          })}
         </ul>
-        <CommentForm dishId={dishId} addComment={addComment} />
+        <CommentForm dishId={dishId} postComment={postComment} />
       </div>
     );
   else return <div></div>;
@@ -222,7 +224,7 @@ const DishDetails = (props) => {
           <div className="col-12 col-md-5 m-1">
             <RenderComments
               comments={props.comments}
-              addComment={props.addComment}
+              postComment={props.postComment}
               dishId={props.dish.id}
             />
           </div>
